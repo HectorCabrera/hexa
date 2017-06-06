@@ -11,15 +11,15 @@ module hexa #(  parameter XCOR = 2,
 		input wire 	clk,
 		input wire 	rst,
     /* --- inputs --- */
-        input wire [0:PORTS-1] diff_pair_pi,
-        input wire [0:PORTS-1] diff_pair_ni,
-        input wire [0:PORTS-1] crt_in,
-        input wire [0:(32*PORTS)-1] input_channels,
+        input wire [PORTS-1:0] diff_pair_pi,
+        input wire [PORTS-1:0] diff_pair_ni,
+        input wire [PORTS-1:0] crt_in,
+        input wire [(32*PORTS)-1:0] input_channels,
     /* --- outputs --- */
-        output wire [0:PORTS-1] diff_pair_po,
-        output wire [0:PORTS-1] diff_pair_no,
-        output wire [0:PORTS-1] crt_out,
-        output wire [0:(32*PORTS)-1] output_channels
+        output wire [PORTS-1:0] diff_pair_po,
+        output wire [PORTS-1:0] diff_pair_no,
+        output wire [PORTS-1:0] crt_out,
+        output wire [(32*PORTS)-1:0] output_channels
     );
 
 
@@ -31,38 +31,38 @@ module hexa #(  parameter XCOR = 2,
 
 // --- signals --- //
     // --- inports --- //
-    wire [31:0]      inport_data   [0:PORTS-1];
-    wire [PORTS-1:0] port_rqs      [0:PORTS-1];
+    wire [31:0]      inport_data   [PORTS-1:0];
+    wire [PORTS-1:0] port_rqs      [PORTS-1:0];
 
-    wire pe_rqs  [0:PORTS-1];
-    wire arb_ack [0:PORTS-1];
+    wire pe_rqs  [PORTS-1:0];
+    wire arb_ack [PORTS-1:0];
 
-    wire [PORTS-1:0] rqs2arbiters [0:PORTS-1];
+    wire [PORTS-1:0] rqs2arbiters [PORTS-1:0];
 
 
     // --- ccs --- //
-    wire [PORTS-1:0] xbar_cfg_vector [0:PORTS-1];
-    wire [PORTS-1:0] arb_ackf        [0:PORTS-1];
+    wire [PORTS-1:0] xbar_cfg_vector [PORTS-1:0];
+    wire [PORTS-1:0] arb_ackf        [PORTS-1:0];
 
     // --- switch fabric --- //
-    wire [31:0] xbar_data   [0:PORTS-1];
+    wire [31:0] xbar_data   [PORTS-1:0];
 
     // --- pack acknowlage for each inport --- //
-    wire [0:PORTS-1] ack2inports;
+    wire [PORTS-1:0] ack2inports;
 
     // --- outports --- //
-    wire [31:0] output_channel [0:PORTS-1];
+    wire [31:0] output_channel [PORTS-1:0];
 
 
 
 
 // --- unpack input channels to individual buses --- //
-    wire [31:0] input_data [0:PORTS-1];
+    wire [31:0] input_data [PORTS-1:0];
 
     generate
         for(index=0; index<PORTS; index=index+1)
             begin
-                assign input_data[index] = input_channels[index*32:(index*32)+31];
+                assign input_data[index] = input_channels[(index*32)+31:index*32];
             end
     endgenerate
 
