@@ -4,7 +4,9 @@
 Documentation
  '''*/
 
-module inport
+module inport   #(  parameter XCOR = 2,
+                    parameter YCOR = 2
+                )
     (
         input wire clk,
         input wire rst,
@@ -106,7 +108,8 @@ module inport
     rgu - request generator unit
    '''*/
 
-    rgu rgu
+    rgu #(.XCOR(XCOR), .YCOR(YCOR)) 
+    rgu 
     (
     	.clk(clk),
     	.rst(rst),
