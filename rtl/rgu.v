@@ -6,11 +6,9 @@ Documentation
     rgu - request generator unit
  '''*/
 
-module rgu    
-#(
-    parameter XCOR = 2,
-    parameter YCOR = 2
-)
+module rgu #(   parameter XCOR = 2,
+                parameter YCOR = 2
+            )
     (
         input wire clk,
         input wire rst,
