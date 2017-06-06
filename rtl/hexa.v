@@ -74,7 +74,8 @@ module hexa #(  parameter XCOR = 2,
     generate
         for (index=0; index<PORTS; index=index+1)
             begin: inport_inst
-                inport inport (
+                inport #(.XCOR(XCOR), .YCOR(YCOR)) 
+                inport (
                 	.clk(clk),
                 	.rst(rst),
                     // --- inputs --- //
