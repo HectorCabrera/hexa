@@ -4,7 +4,9 @@
 Documentation
  '''*/
 
-module hexa
+module hexa #(  parameter XCOR = 2,
+                parameter YCOR = 2
+            )
 	(
 		input wire 	clk,
 		input wire 	rst,
