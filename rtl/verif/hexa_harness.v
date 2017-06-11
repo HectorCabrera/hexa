@@ -7,7 +7,12 @@ parameter 	XCOR = 2,
 			YCOR = 2,
 			CYCLE  = 100,
 			Tsetup = 15,
-			Thold  = 5;
+			Thold  = 5,
+			XPOS = 0,
+			XNEG = 1,
+			YPOS = 2,
+			YNEG = 3,
+			PE = 4;
 
 // --- local signals --- //
 	reg clk;
@@ -68,13 +73,15 @@ hexa
 	// --- Canal x+ --- //
 		source
 			#(
-				.Thold(Thold)
+				.Thold(Thold),
+				.PORT(0)
 			)
 		xpos_in_channel
 			(
 				.clk 		(clk),
-				.credit_in 	(credit_out_xpos_dout),
-				.channel_out(channel_xpos_din)
+				.credit_in 	(crt_out[0]),
+				.channel_out(input_channels[0]),
+				.diff_pair_out({diff_pair_pi[0], diff_pair_ni[0]})
 			);
 
 
@@ -85,44 +92,26 @@ hexa
 		xpos_out_channel
 			(
 				.clk 		(clk),
-				.channel_in (channel_xpos_dout),
-				.credit_out (credit_in_xpos_din)
-			);
-
-	// --- Canal y+ --- //
-		source
-			#(
-				.Thold(Thold)
-			)
-		ypos_in_channel
-			(
-				.clk 		(clk),
-				.credit_in 	(credit_out_ypos_dout),
-				.channel_out(channel_ypos_din)
+				.channel_in (output_channels[0]),
+				.credit_out (crt_in[0]),
+				.diff_pair_in({diff_pair_po[0], diff_pair_no[0]})
 			);
 
 
-		sink
-			#(
-				.Thold(Thold)
-			)
-		ypos_out_channel
-			(
-				.clk 		(clk),
-				.channel_in (channel_ypos_dout),
-				.credit_out (credit_in_ypos_din)
-			);
+
 
 	// --- Canal x- --- //
 		source
 			#(
-				.Thold(Thold)
+				.Thold(Thold),
+				.PORT(1)
 			)
 		xneg_in_channel
 			(
 				.clk 		(clk),
-				.credit_in 	(credit_out_xneg_dout),
-				.channel_out(channel_xneg_din)
+				.credit_in 	(crt_out[1]),
+				.channel_out(input_channels[1]),
+				.diff_pair_out({diff_pair_pi[1], diff_pair_ni[1]})
 			);
 
 
@@ -133,20 +122,56 @@ hexa
 		xneg_out_channel
 			(
 				.clk 		(clk),
-				.channel_in (channel_xneg_dout),
-				.credit_out (credit_in_xneg_din)
+				.channel_in (output_channels[1]),
+				.credit_out (crt_in[1]),
+				.diff_pair_in({diff_pair_po[1], diff_pair_no[1]})
 			);
 
-	// --- Canal x- --- //
+
+
+
+	// --- Canal y+ --- //
 		source
 			#(
+				.Thold(Thold),
+				.PORT(2)
+			)
+		ypos_in_channel
+			(
+				.clk 		(clk),
+				.credit_in 	(crt_out[2]),
+				.channel_out(input_channels[2]),
+				.diff_pair_out({diff_pair_pi[2], diff_pair_ni[]})
+			);
+
+
+		sink
+			#(
 				.Thold(Thold)
+			)
+		ypos_out_channel
+			(
+				.clk 		(clk),
+				.channel_in (output_channels[2]),
+				.credit_out (crt_in[2]),
+				.diff_pair_in({diff_pair_po[2], diff_pair_no[2]})
+			);
+
+
+
+
+	// --- Canal y- --- //
+		source
+			#(
+				.Thold(Thold),
+				.PORT(3)
 			)
 		yneg_in_channel
 			(
 				.clk 		(clk),
-				.credit_in 	(credit_out_yneg_dout),
-				.channel_out(channel_yneg_din)
+				.credit_in 	(crt_out[3]),
+				.channel_out(input_channels[3]),
+				.diff_pair_out({diff_pair_pi[3], diff_pair_ni[3]})
 			);
 
 
@@ -157,20 +182,26 @@ hexa
 		yneg_out_channel
 			(
 				.clk 		(clk),
-				.channel_in (channel_yneg_dout),
-				.credit_out (credit_in_yneg_din)
+				.channel_in (output_channels[3]),
+				.credit_out (crt_in[3]),
+				.diff_pair_in({diff_pair_po[3], diff_pair_no[3]})
 			);
+
+
+
 
 	// --- Canal pe --- //
 		source
 			#(
-				.Thold(Thold)
+				.Thold(Thold),
+				.PORT(4)
 			)
 		pe_in_channel
 			(
 				.clk 		(clk),
-				.credit_in 	(credit_out_pe_dout),
-				.channel_out(channel_pe_din)
+				.credit_in 	(crt_out[4]),
+				.channel_out(input_channels[4]),
+				.diff_pair_out({diff_pair_pi[4], diff_pair_ni[4]})
 			);
 
 
@@ -181,9 +212,12 @@ hexa
 		pe_out_channel
 			(
 				.clk 		(clk),
-				.channel_in (channel_pe_dout),
-				.credit_out (credit_in_pe_din)
+				.channel_in (output_channels[4]),
+				.credit_out (crt_in[4]),
+				.diff_pair_in({diff_pair_po[4], diff_pair_no[4]})
 			);
+
+
 
 
 

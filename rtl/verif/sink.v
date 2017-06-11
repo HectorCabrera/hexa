@@ -35,14 +35,15 @@
 
 module sink		#(
 					parameter 	Thold 	= 5,
-					parameter 	PORT 	= `X_NEG,
+					parameter 	PORT 	= XNEG,
 					parameter	ID 		= 0
 				)
 	(
 		input wire	clk,
 
 	// -- inputs ------------------------------------------------- >>>>>
-		input wire [`CHANNEL_WIDTH-1:0]	channel_in,
+		input wire [1:0]  diff_pair_out,
+		input wire [31:0] channel_in,
 
 	// -- outputs ------------------------------------------------ >>>>>
 		output reg credit_out

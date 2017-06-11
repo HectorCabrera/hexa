@@ -38,7 +38,7 @@
 
 module source	#(
 					parameter Thold 	= 5,
-					parameter PORT 		= `X_NEG,
+					parameter PORT 		= 0,
 					parameter CREDITS 	= 2,
 					parameter ID 		= 0
 				)
@@ -49,7 +49,8 @@ module source	#(
 		input  wire credit_in,
 
 	// -- outputs ------------------------------------------------ >>>>>
-		output reg [`CHANNEL_WIDTH-1:0]	channel_out
+		output reg [1:0]	diff_pair_out,
+		output reg [32:0]	channel_out
     );
 
 
@@ -97,6 +98,8 @@ module source	#(
 	reg [31:0]			dato2_flit;
 	reg [31:0]			dato3_flit;
 	reg [31:0]			dato4_flit;
+
+	reg [1:0]			diff_pair;
 	
 
 
@@ -107,14 +110,14 @@ module source	#(
 			file_name 	 = "";
 			file_id 	 = A_ASCII + ID;
 
-			if (PORT == `X_NEG)
-				port_name = "XNEG";
-			else if (PORT == `X_POS)
+			if (PORT == 0)
 				port_name = "XPOS";
-			else if (PORT == `Y_NEG)
-				port_name = "YNEG";
-			else if (PORT == `Y_POS)
+			else if (PORT == 1)
+				port_name = "XNEG";
+			else if (PORT == 2)
 				port_name = "YPOS";
+			else if (PORT == 3)
+				port_name = "YNEG";
 			else
 				port_name = "PE__";
 			
@@ -130,6 +133,8 @@ module source	#(
 
 			packet_tick  = 0;
 			packet_count = 0;
+
+			diff_pair = 2'b10;
 		end
 
 
@@ -189,18 +194,19 @@ module source	#(
 					if (creditos < 1)
 						@(creditos > 0);
 									
-					
+					diff_pair = ~diff_pair;
+
 					for (i = 0; i < 5; i = i+1) 
 						begin
-							channel_out <= pkt[`CHANNEL_WIDTH-1:0];
+							channel_out <= pkt[31:0];
 								@(posedge clk);
 									#(Thold);
 							if (i == 0)
 								creditos = creditos - 1;
-							pkt = pkt >> `CHANNEL_WIDTH;
+							pkt = pkt >> 32;
 						end
 					packet_count = packet_count + 1;
-					channel_out  = {`CHANNEL_WIDTH{1'bx}};
+					channel_out  = {32{1'bx}};
 			end
 	endtask : send_packet
 
