@@ -12,7 +12,8 @@ parameter 	XCOR = 2,
 			XNEG = 1,
 			YPOS = 2,
 			YNEG = 3,
-			PE = 4;
+			PE   = 4;
+
 
 // --- local signals --- //
 	reg clk;
@@ -51,7 +52,7 @@ hexa
 hexa
 	(
 		.clk(clk),
-		rst(rst),
+		.rst(rst),
     // --- inputs --- //
         .diff_pair_pi({diff_pair_pi[4], diff_pair_pi[3], diff_pair_pi[2], diff_pair_pi[1], diff_pair_pi[0]}),					// [4:0]
         .diff_pair_ni({diff_pair_ni[4], diff_pair_ni[3], diff_pair_ni[2], diff_pair_ni[1], diff_pair_ni[0]}),					// [4:0]
@@ -74,7 +75,7 @@ hexa
 		source
 			#(
 				.Thold(Thold),
-				.PORT(0)
+				.PORT(XPOS)
 			)
 		xpos_in_channel
 			(
@@ -104,7 +105,7 @@ hexa
 		source
 			#(
 				.Thold(Thold),
-				.PORT(1)
+				.PORT(XNEG)
 			)
 		xneg_in_channel
 			(
@@ -134,14 +135,14 @@ hexa
 		source
 			#(
 				.Thold(Thold),
-				.PORT(2)
+				.PORT(YPOS)
 			)
 		ypos_in_channel
 			(
 				.clk 		(clk),
 				.credit_in 	(crt_out[2]),
 				.channel_out(input_channels[2]),
-				.diff_pair_out({diff_pair_pi[2], diff_pair_ni[]})
+				.diff_pair_out({diff_pair_pi[2], diff_pair_ni[2]})
 			);
 
 
@@ -164,7 +165,7 @@ hexa
 		source
 			#(
 				.Thold(Thold),
-				.PORT(3)
+				.PORT(YNEG)
 			)
 		yneg_in_channel
 			(
@@ -194,7 +195,7 @@ hexa
 		source
 			#(
 				.Thold(Thold),
-				.PORT(4)
+				.PORT(PE)
 			)
 		pe_in_channel
 			(
