@@ -39,7 +39,7 @@
 module source	#(
 					parameter Thold 	= 5,
 					parameter PORT 		= 0,
-					parameter CREDITS 	= 2,
+					parameter CREDITS 	= 4,
 					parameter ID 		= 0
 				)
 	(
@@ -64,9 +64,12 @@ module source	#(
 						secuencial.
 	*/
 
-	localparam A_ASCII = 65;
-
-	
+	localparam 	A_ASCII = 65,
+				XPOS = 0,
+				XNEG = 1,
+				YPOS = 2,
+				YNEG = 3,
+				PE   = 4;	
 
 // -- Variables Globales ----------------------------------------- >>>>>
 	/*
@@ -110,18 +113,18 @@ module source	#(
 			file_name 	 = "";
 			file_id 	 = A_ASCII + ID;
 
-			if (PORT == 0)
+			if (PORT == XPOS)
 				port_name = "XPOS";
-			else if (PORT == 1)
+			else if (PORT == XNEG)
 				port_name = "XNEG";
-			else if (PORT == 2)
+			else if (PORT == YPOS)
 				port_name = "YPOS";
-			else if (PORT == 3)
+			else if (PORT == YNEG)
 				port_name = "YNEG";
 			else
 				port_name = "PE__";
 			
-			channel_out  = {`CHANNEL_WIDTH{1'b0}};
+			channel_out  = {32{1'b0}};
 			creditos 	 = CREDITS;
 
 			extended_serial_field = 0;
