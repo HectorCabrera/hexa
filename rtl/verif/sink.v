@@ -59,7 +59,12 @@ module sink		#(
 						secuencial.
 	*/
 	
-	localparam A_ASCII = 65;
+	localparam 	A_ASCII = 65,
+				XPOS = 0,
+				XNEG = 1,
+				YPOS = 2,
+				YNEG = 3,
+				PE   = 4;
 
 
 
@@ -105,13 +110,13 @@ module sink		#(
 			file_id 	= A_ASCII + ID;
 			paquete 	= 0;
 
-			if (PORT == `X_NEG)
+			if (PORT == X_NEG)
 				port_name = "XNEG";
-			else if (PORT == `X_POS)
+			else if (PORT == X_POS)
 				port_name = "XPOS";
-			else if (PORT == `Y_NEG)
+			else if (PORT == Y_NEG)
 				port_name = "YNEG";
-			else if (PORT == `Y_POS)
+			else if (PORT == Y_POS)
 				port_name = "YPOS";
 			else
 				port_name = "PE__";
@@ -170,7 +175,7 @@ module sink		#(
 								#(Thold);
 
 							if (i < 4)
-								paquete = paquete << `CHANNEL_WIDTH;
+								paquete = paquete << 32;
 
 						end
 						
